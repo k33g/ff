@@ -1,6 +1,7 @@
 package ff;
 
 import ff.golo.tools.ScriptsLoader;
+
 import java.io.File;
 
 /*
@@ -14,6 +15,7 @@ public class Main {
          - arguments to change path of application
          - file parameters (configuration)
          - resources package (with logo etc. ...)
+
     */
     public static void main(String[] args) {
 
@@ -22,6 +24,8 @@ public class Main {
         /* Load golo extensions (in jar file) */
 
         scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.futures.golo");
+        scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.strings.golo");
+
 
         /* Load all external golo scripts (in app directory) */
 

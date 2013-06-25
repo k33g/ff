@@ -58,10 +58,14 @@ public class ScriptsLoader {
                 goloScript,
                 is
         );
-
-        System.out.println("###");
-
         this.modules.put(goloScript, module);
+    }
+
+    public void loadAllGoloResources(String where) throws IOException {
+
+        /* TODO:???
+
+        */
     }
 
     public void loadAll() {
