@@ -1,0 +1,1 @@
+Always prefix golo extensions with "ext."

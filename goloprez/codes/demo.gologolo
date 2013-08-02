@@ -1,0 +1,17 @@
+module humans
+
+struct human = {firstName, lastName}
+
+augment humans.types.human {
+  function hello = |this| {
+    console.log("hello " + this:firstName() + " " + this:lastName())
+  }
+}                
+
+function main = |args| {
+  let bob = human("Bob", "Morane")
+  bob:hello()
+
+  console.log("%s %s":format(bob:firstName(), bob:lastName()))
+  console.log("%s %s":format(bob:get("firstName"), bob:get("lastName")))
+}
