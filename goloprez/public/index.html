@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>GOLO</title>
+</head>
+
+<body class="deck-container">
+
+<!-- Begin slides. Just make elements with a class of slide. -->
+
+<section class="slide">
+    <h1>Golo<br>
+    Le langage qui donne des super-pouvoirs</h1>
+</section>
+
+<section class="slide">
+    <h2>Hello world</h2>
+    <span id="hello_world"></span>
+</section>
+
+<section class="slide">
+    <h2>Fonctions</h2>
+    <span id="functions"></span>
+</section>
+
+<section class="slide">
+    <h2>import module</h2>
+    <div class="row">
+        <div class="col-lg-6"><span id="main"></span></div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-4"><span id="import"></span></div>
+    </div>
+
+</section>
+
+
+
+
+<section class="slide">
+    <h1>Questions ?</h1>
+</section>
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+    <span class="deck-status-current"></span>
+    /
+    <span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+    <label for="goto-slide">Go to slide:</label>
+    <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+    <datalist id="goto-datalist"></datalist>
+    <input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- End extension snippets. -->
+
+
+<script src="js/vendors/yepnope.1.5.4-min.js"></script>
+<script>
+
+    yepnope({
+        load : [
+            "js/vendors/jquery-1.9.1.min.js",
+            "js/vendors/underscore-min.js",
+            "js/vendors/backbone-min.js",
+            "js/extensions.js",
+            //deck : Required stylesheet
+            "deck/core/deck.core.css",
+            //deck : Extension CSS files go here. Remove or add as needed.
+            "deck/extensions/goto/deck.goto.css",
+            "deck/extensions/menu/deck.menu.css",
+            "deck/extensions/navigation/deck.navigation.css",
+            "deck/extensions/status/deck.status.css",
+            "deck/extensions/hash/deck.hash.css",
+            "deck/extensions/scale/deck.scale.css",
+            //deck : Style theme. More available in /themes/style/ or create your own
+            //"deck/themes/style/web-2.0.css",
+            //"deck/themes/style/swiss.css",
+            "deck/themes/style/k33g.css",
+            //deck : Transition theme. More available in /themes/transition/ or create your own.
+            "deck/themes/transition/horizontal-slide.css",
+            //deck : Required Modernizr file
+            "deck/modernizr.custom.js",
+            //deck : Required JS files.
+            "deck/core/deck.core.js",
+            //deck : Extension JS files. Add or remove as needed
+            "deck/extensions/hash/deck.hash.js",
+            "deck/extensions/menu/deck.menu.js",
+            "deck/extensions/goto/deck.goto.js",
+            "deck/extensions/status/deck.status.js",
+            "deck/extensions/navigation/deck.navigation.js",
+            "deck/extensions/scale/deck.scale.js",
+            //---
+            "bootstrap3/css/bootstrap.min.css",
+            "styles.css",
+            "bootstrap3/js/bootstrap.min.js",
+            "js/codemirror/lib/codemirror.js",
+            "js/codemirror/lib/codemirror.css",
+            "js/codemirror/theme/k33gorg.css",
+            "js/codemirror/theme/solarized.css",
+            "js/codemirror/mode/golo/golo.js",
+            //"js/codemirror/addon/selection/active-line.js",
+            "js/golo.editor.js"
+        ],
+        complete : function() {
+            console.log("All scripts loaded, starting application")
+            yepnope("index.js")
+            $.deck('.slide');
+        }
+    })
+
+
+</script>
+
+<!--
+<style type="text/css">
+    .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+    .CodeMirror-activeline-background {background: #e75c3d !important;}
+</style>
+-->
+
+
+</body>
+</html>

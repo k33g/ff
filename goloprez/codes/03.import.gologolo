@@ -1,0 +1,9 @@
+module test2 #c'est l'import
+
+function salut = |arg| {
+  console.log("Salut " + arg)
+}
+
+function hello = -> 
+  "<b>HELLO</b>"
+

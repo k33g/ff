@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bug Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <style>
+        body {
+            position: relative;
+            padding-top: 60px; /* fixed navbar */
+        }
+    </style>
+<body>
+
+
+
+<div class="container">
+
+
+</div>
+
+<script src="js/vendors/yepnope.1.5.4-min.js"></script>
+
+<script>
+
+    yepnope({
+        load : [
+            "bootstrap3/css/bootstrap.min.css",
+            "js/vendors/jquery-1.9.1.min.js",
+            "bootstrap3/js/bootstrap.min.js",
+            "js/vendors/underscore-min.js",
+            "js/vendors/backbone-min.js",
+            "js/extensions.js"
+        ],
+        complete : function() {
+            console.log("All scripts loaded, starting application")
+            yepnope("sandbox.js")
+
+
+        }
+    })
+
+</script>
+</body>
+</html>

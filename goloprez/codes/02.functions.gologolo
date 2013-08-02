@@ -1,0 +1,9 @@
+module functions
+
+function add = |a,b| {
+  return a + b
+}
+
+function main = |arg| {
+  console.log(add(15, 45))
+}

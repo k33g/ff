@@ -1,0 +1,8 @@
+module test1
+import test2
+
+function main = |arg| {
+  console.log("Hello ...")
+  salut("Sammy")
+  console.log(hello())
+}

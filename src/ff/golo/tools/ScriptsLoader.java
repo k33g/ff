@@ -1,10 +1,11 @@
 package ff.golo.tools;
 
+import ff.Errors;
 import fr.insalyon.citi.golo.compiler.GoloClassLoader;
+import fr.insalyon.citi.golo.compiler.GoloCompilationException;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
@@ -20,7 +21,7 @@ public class ScriptsLoader {
     private String extension = ".golo";
     private GoloClassLoader classLoader = new GoloClassLoader();
 
-    private void findGoloScripts(String path) throws IOException {
+    private void findGoloScripts(String path) throws Exception {
 
         File root = new File( path );
 
@@ -35,12 +36,26 @@ public class ScriptsLoader {
 
                     System.out.println( "Loading : " + f.getAbsoluteFile() );
 
-                    Class<?> module = classLoader.load(
-                            f.getName(),
-                            new FileInputStream(f.getAbsoluteFile())
-                    );
+                    try {
+                        Class<?> module = module = classLoader.load(
+                                f.getName(),
+                                new FileInputStream(f.getAbsoluteFile())
+                        );
+                        this.modules.put(f.getAbsoluteFile().toString().replaceAll("\\\\", "/").split(this.pathToParse.replaceAll("\\\\", "/"))[1], module);
+                    } catch(GoloCompilationException e) {
 
-                    this.modules.put(f.getAbsoluteFile().toString().replaceAll("\\\\", "/").split(this.pathToParse.replaceAll("\\\\", "/"))[1], module);
+                        System.out.println("ERROR IN  : " + f.getAbsoluteFile());
+                        System.out.println(e.getProblems());
+
+                        Errors.pathFile = f.getAbsoluteFile().toString();
+                        Errors.problems = e.getProblems();
+
+                        throw new Exception("OUCH");
+
+                    } finally {
+
+                    }
+
                 }
             }
         }
@@ -54,6 +69,7 @@ public class ScriptsLoader {
 
     public void loadGoloResource(String resourcePath, String goloScript) {
         InputStream is = ClassLoader.getSystemResourceAsStream(resourcePath+goloScript);
+
         Class<?> module = classLoader.load(
                 goloScript,
                 is
@@ -61,25 +77,13 @@ public class ScriptsLoader {
         this.modules.put(goloScript, module);
     }
 
-    public void loadAllGoloResources(String where) throws IOException {
-
-        /* TODO:???
-
-        */
-    }
-
-    public void loadAll() {
-        try {
-            this.findGoloScripts(this.pathToParse);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void loadAll() throws Exception {
+        this.findGoloScripts(this.pathToParse);
     }
 
 
     public ScriptsLoader(String pathToParse) {
         this.modules = new HashMap<String, Class<?>>();
         this.pathToParse = pathToParse;
-
     }
 }

@@ -1,8 +1,13 @@
 package ff;
 
+import ff.golo.tools.Resources;
 import ff.golo.tools.ScriptsLoader;
 
 import java.io.File;
+
+import static spark.Spark.externalStaticFileLocation;
+import static spark.Spark.setPort;
+
 
 /*
  User: k33g_org
@@ -17,39 +22,51 @@ public class Main {
          - resources package (with logo etc. ...)
 
     */
-    public static void main(String[] args) {
 
-        ScriptsLoader scriptsLoader = new ScriptsLoader((new File("app")).getAbsolutePath());
+
+    public static void main(String[] args) throws Exception {
+
+        //String appDirectory = "app";
+        //String appDirectory = "golo34";
+
+        String appDirectory = "goloprez";
+
+        //String appDirectory = "app";
+
+        System.out.println(appDirectory);
+
+        if(args.length > 0 ) {
+            appDirectory = args[0];
+        }
+
+        Parameters.appDirectory = appDirectory;
+
+        final ScriptsLoader scriptsLoader = new ScriptsLoader((new File(appDirectory)).getAbsolutePath());
 
         /* Load golo extensions (in jar file) */
-
-        scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.futures.golo");
-        scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.strings.golo");
-
+        Resources.loadGoloExtensions(scriptsLoader);
 
         /* Load all external golo scripts (in app directory) */
-
         scriptsLoader.loadAll();
 
-        /* run boot and routes */
-        try {
-            scriptsLoader.module("/boot.golo")
-                    .method("boot", Object.class)
-                    .run((Object) null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        /* manage parameters : http port etc. ...*/
+        Resources.loadGoloApplicationParametersScripts(scriptsLoader);
 
-        try {
-            scriptsLoader.module("/routes.golo")
-                    .method("routes", Object.class)
-                    .run((Object) null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        /*===static assets ===*/
+        externalStaticFileLocation(Parameters.appPublicDirectory);
+        /*===http port ===*/
+        setPort(Parameters.appHttpPort);
+
+        /* boot and routes ... terminate */
+        Resources.loadAndRunBootAndRoutesGoloScripts(scriptsLoader);
+
+        Resources.loadTerminateGoloScript(scriptsLoader);
+
+        Runtime.getRuntime().addShutdownHook(Parameters.terminate);
+
+
+
 
     }
-
-
 
 }

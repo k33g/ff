@@ -1,0 +1,13 @@
+.cm-s-k33gorg.CodeMirror { background: rgba(0, 24, 48, 0.69); color: white; }
+.cm-s-k33gorg div.CodeMirror-selected { background: #b36539 !important; }
+.cm-s-k33gorg .CodeMirror-gutters { background: #002240; border-right: 1px solid #aaa; }
+.cm-s-k33gorg .CodeMirror-linenumber { color: #d0d0d0; }
+.cm-s-k33gorg .CodeMirror-cursor { border-left: 1px solid white !important; }
+
+
+.cm-s-k33gorg {
+    line-height: 1.45em;
+    font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;
+    color-profile: sRGB;
+    rendering-intent: auto;
+}
