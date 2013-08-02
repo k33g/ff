@@ -17,21 +17,14 @@ import static spark.Spark.setPort;
 public class Main {
     /*
         TODO :
-         - arguments to change path of application
-         - file parameters (configuration)
          - resources package (with logo etc. ...)
-
     */
-
 
     public static void main(String[] args) throws Exception {
 
-        //String appDirectory = "app";
-        //String appDirectory = "golo34";
+        //String appDirectory = "goloprez";
 
-        String appDirectory = "goloprez";
-
-        //String appDirectory = "app";
+        String appDirectory = "app";
 
         System.out.println(appDirectory);
 
