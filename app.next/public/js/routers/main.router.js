@@ -4,11 +4,8 @@ App.Routers.MainRouter = Backbone.Router.extend({
         if (!this.application) throw 'Requires an application instance'
     },
     routes : {
-        "deleteproject/:id" : "deleteProject"
 
-    },
-    deleteProject : function (id) {
-        this.application.deleteProject(id)
+
     }
 
 });

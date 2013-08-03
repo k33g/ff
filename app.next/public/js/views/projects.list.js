@@ -17,7 +17,7 @@ App.Views.ProjectsView = Backbone.LazyView.extend({
                  <td><%= project.id %></td>
                  <td><%= project.name %></td>
                  <td><%= project.description %></td>
-                 <td><a href="#deleteproject/<%= project.id %>">Delete</a></td>
+                 <td><a href="#<%= project.id %>">Delete</a></td>
              </tr>
          <%});%>
      </table>
@@ -27,6 +27,16 @@ App.Views.ProjectsView = Backbone.LazyView.extend({
     },
     render:function(){
         this.display({projects:this.collection});
+    },
+    events : {
+        "click a":function(e) {//no need of router
+
+            this.collection.get(this.getHashValue(e)).destroy({
+                success:function(data, response){
+                    console.log("project deleted", data, response)
+                }
+            })
+        }
     }
 });
 

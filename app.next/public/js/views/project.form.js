@@ -2,7 +2,7 @@ App.Views.ProjectForm = Backbone.LazyView.extend({
     el:"projectForm",
     template:function(){/*
      <div class="panel">
-     <div class="panel-heading">New Project ...</div>
+     <div class="panel-heading">New Project ... (Redis Demo)</div>
      <div class="form-inline">
      <input style="width:40%;" class="form-control" placeholder="Project Name" type="text" value="<%= project.name %>"/>
      <input style="width:40%;" class="form-control" placeholder="Project Description" type="text" value="<%= project.description %>"/>

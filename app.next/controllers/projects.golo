@@ -4,18 +4,15 @@ import models.project
 
 #POST /projects
 function create = |request, response| {
-
-    let project = Project(): fromJson(request:body())
-    project: save()
+    let project = Project(): fromJson(request:body()): save()
     response:type("application/json")
     return project:toJson()
 }
 
 #PUT /projects/:id
 function save = |request, response| {
-    let id = request:params(":id")
-    let project = Project(): fromJson(request:body())
-    project: save()
+    #let id = request:params(":id")
+    let project = Project(): fromJson(request:body()): save()
     response:type("application/json")
     return project:toJson()
 }
@@ -41,9 +38,9 @@ function fetchAll = |request, response| {
 function delete = |request, response| {
     let id = request:params(":id")
     println("DELETE : " + id)
-    let project = Project(): queryById(id)
+    let project = Project(): queryById(id): delete()
     #let project = Project(): fields(map[["id",id],["deleted", true]])
-    project: delete()
+    #project: delete()
     response:type("application/json")
     return project:toJson()
 }
