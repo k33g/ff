@@ -6,36 +6,44 @@ import models.project
 #GET /projects/:id
 function fetch = |request, response| {
     let id = request:params(":id")
-    let project = Project():setField("id",id):fetch()
+    println(id)
+
     response:type("application/json")
-    return project:toJson()
+    return json():stringify(map[])
 }
 
 #GET /projects
 function fetchAll = |request, response| {
-    let projects = Projects():fetch()
+
     response:type("application/json")
-    return projects:toJson()
+    return json():stringify(array[map[]])
 }
 
 #POST /projects
 function create = |request, response| {
-    let project = Project():fromJson(request:body()):save()
+    let fields = json():toMap(request:body())
+    fields:put("id",java.util.UUID.randomUUID():toString())
+    println(fields)
+
     response:type("application/json")
-    return project:toJson()
+    return json():stringify(fields)
 }
 
-#PUT /projects
+#PUT /projects/:id
 function save = |request, response| {
-    let project = Project():fromJson(request:body()):save()
+    let id = request:params(":id")
+    let fields = json():toMap(request:body())
+    println(fields)
+
     response:type("application/json")
-    return project:toJson()
+    return json():stringify(fields)
 }
 
 #DELETE /projects/:id
 function delete = |request, response| {
     let id = request:params(":id")
-    let project = Project():setField("id",id):setField("deleted",true):delete()
+    println(id)
+
     response:type("application/json")
-    return project:toJson()
+    return json():stringify(map[])
 }

@@ -6,36 +6,30 @@ import models.bug
 #GET /bugs/:id
 function fetch = |request, response| {
     let id = request:params(":id")
-    let bug = Bug():setField("id",id):fetch()
-
+    let bug = Bug():setField("id",id):fetch() #todo : getbyid
     response:type("application/json")
-    return json():stringify(bug:fields())
+    return bug:toJson()
 }
 
 #GET /bugs
 function fetchAll = |request, response| {
-    let bugs = Bugs():fetch():models()
-
+    let bugs = Bugs():fetch()
     response:type("application/json")
-    return json():stringify(bugs)
+    return bugs:toJson()
 }
 
 #POST /bugs
 function create = |request, response| {
-    let fields = json():toMap(request:body())
-    let bug = Bug():setAllFields(fields):save()
-
+    let bug = Bug():fromJson(request:body()):save()
     response:type("application/json")
-    return json():stringify(bug:fields())
+    return bug:toJson()
 }
 
 #PUT /bugs
 function save = |request, response| {
-    let fields = json():toMap(request:body())
-    let bug = Bug():setAllFields(fields):save()
-
+    let bug = Bug():fromJson(request:body()):save()
     response:type("application/json")
-    return json():stringify(bug:fields())
+    return bug:toJson()
 }
 
 #DELETE /bugs/:id
@@ -44,5 +38,5 @@ function delete = |request, response| {
     let bug = Bug():setField("id",id):setField("deleted",true):delete()
 
     response:type("application/json")
-    return json():stringify(bug:fields())
+    return bug:toJson()
 }
