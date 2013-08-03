@@ -7,43 +7,35 @@ import models.user
 function fetch = |request, response| {
     let id = request:params(":id")
     let user = User():setField("id",id):fetch()
-
     response:type("application/json")
-    return json():stringify(user:fields())
+    return user:toJson()
 }
 
 #GET /users
 function fetchAll = |request, response| {
-
-    let users = Users():fetch():models()
-
+    let users = Users():fetch()
     response:type("application/json")
-    return json():stringify(users)
+    return users:toJson()
 }
 
 #POST /users
 function create = |request, response| {
-    let fields = json():toMap(request:body())
-    let user = User():setAllFields(fields):save()
-
+    let user = User():fromJson(request:body()):save()
     response:type("application/json")
-    return json():stringify(user:fields())
+    return user:toJson()
 }
 
 #PUT /users
 function save = |request, response| {
-    let fields = json():toMap(request:body())
-    let user = User():setAllFields(fields):save()
-
+    let user = User():fromJson(request:body()):save()
     response:type("application/json")
-    return json():stringify(user:fields())
+    return user:toJson()
 }
 
 #DELETE /users/:id
 function delete = |request, response| {
     let id = request:params(":id")
     let user = User():setField("id",id):setField("deleted",true):delete()
-
     response:type("application/json")
-    return json():stringify(user:fields())
+    return user:toJson()
 }

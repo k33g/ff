@@ -31,6 +31,9 @@ public class Resources {
 
         scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.plugins.golo");
 
+        scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.redis.golo");
+
+
     }
 
     public static void loadGoloApplicationParametersScripts(final ScriptsLoader scriptsLoader) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

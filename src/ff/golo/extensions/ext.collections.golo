@@ -34,6 +34,9 @@ function MemoryCollection = |store| {
             }
 
         })
+        :define("toJson", |this| {
+            return json():stringify(this:models())
+        })
 
     return c
 }

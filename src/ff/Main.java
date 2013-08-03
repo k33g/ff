@@ -26,6 +26,8 @@ public class Main {
 
         String appDirectory = "app";
 
+        //String appDirectory = "app.next";
+
         System.out.println(appDirectory);
 
         if(args.length > 0 ) {

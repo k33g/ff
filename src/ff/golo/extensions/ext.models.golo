@@ -1,5 +1,7 @@
 module core.models
 
+import core.json
+
 import java.util.UUID
 import ff.store.MemoryStore
 
@@ -45,6 +47,11 @@ function MemoryModel = |store| {
         })
         :define("delete", |this|{
             MemoryStore.get(this:store()):remove(this:getField("id"))
+            return this
+        })
+        :define("toJson", |this| -> json():stringify(this:fields()))
+        :define("fromJson", |this, body| {
+            this:fields(json():toMap(body))
             return this
         })
 
