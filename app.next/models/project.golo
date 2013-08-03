@@ -1,9 +1,11 @@
 module models.project
 
+import core.redis
+
 function Project = -> DynamicObject()
-	:mixin(core.redis.Model())
+	:mixin(Model())
     :kind("project")
-    :db(core.redis.db("localhost"))
+    :db(db("localhost"))
     :keyFields(["name", "description"])
     :define("queryByName", |this, name|{
         return this: queryModels("*:name:"+name+"*")

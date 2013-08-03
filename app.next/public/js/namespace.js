@@ -4,6 +4,7 @@ window.App = {
     , Views:{}
     , Routers:{}
     , Helpers:{}
+    , Templates:{}
 };
 
 

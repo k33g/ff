@@ -8,6 +8,24 @@ import core.plugins
 function routes = |arg| {
     println("=== CREATING ROUTES ===")
 
+    router():GET(route()
+        :url("/insert")
+        :script("/controllers/m.golo")
+        :method("insert")
+    )
+
+    router():GET(route()
+        :url("/findone")
+        :script("/controllers/m.golo")
+        :method("findone")
+    )
+
+    router():GET(route()
+        :url("/find")
+        :script("/controllers/m.golo")
+        :method("find")
+    )
+
     #-----------------------------------------
     # projects routes
     #-----------------------------------------

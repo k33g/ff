@@ -24,9 +24,9 @@ public class Main {
 
         //String appDirectory = "goloprez";
 
-        String appDirectory = "app";
+        //String appDirectory = "app";
 
-        //String appDirectory = "app.next";
+        String appDirectory = "app.next";
 
         System.out.println(appDirectory);
 

@@ -7,6 +7,9 @@ import redis.clients.jedis.Jedis
 
 function db = |host| -> Jedis(host)
 
+#function db = -> DynamicObject():
+#    helper(Jedis(host))
+
 function Model = -> DynamicObject()
     :kind("something")
     :fields(map[])
@@ -24,40 +27,35 @@ function Model = -> DynamicObject()
         var keyToDelete = null
         try {
             #Search by id to get the exact key
-            let allKeys = this: db(): keys(this: kind()+"*id:"+this: fields(): get("id")+"*")
-            if allKeys: size() > 0 {
-                keyToDelete = allKeys: iterator(): next()
+            let qs = this: kind()+":*:id:"+this: fields(): get("id")+"*"
+            #project:*:id:a9d0d51b-075d-4f3c-8d83-bc5b9779fff5*
+            let all_Keys = this: db(): keys(qs)
+            if all_Keys: size() > 0 {
+                keyToDelete = all_Keys: iterator(): next()
             }
         } catch(e) {
-            println("Huston we've got a problem when getting exact key by id")
+            e: printStackTrace()
+            # println(e: getCause(): getMessage())
+            # println("Huston we've got a problem when getting exact key by id")
         } finally {
             return keyToDelete
         }
     })
     :define("delete", |this| {
         try {
-            #Search by id to get the exact key
-            let exactKeyToDelete = this: getKeyById()
-            if exactKeyToDelete isnt null {
-                this: db(): del(exactKeyToDelete)
-            } else {
-                println("nothing to delete")
-            }
-
-        } catch(e) {
+            this: db(): del(this:getKeyById())
+        } catch (e) {
+            e: printStackTrace()
             println("Huston we've got a problem when deleting model")
         }
-
         return this
     })
     :define("save", |this| {
         #keyfields : Array, fields to construct the key
         let values = map[["result", ""]]
-
         this: keyFields():each(|key| {
             values:put("result", values:get("result") + key + ":" + this: getField(key) + ":")
         })
-
         #verifiy if id exists
         var id = this: fields(): get("id")
 
@@ -66,7 +64,7 @@ function Model = -> DynamicObject()
             this: fields(): put("id", id)
         } else { #update
             try {
-                this: db(): del(this: getKeyById())
+                this: db(): del(this:getKeyById())
             } catch(e) {
                 e: printStackTrace()
             }
@@ -90,6 +88,7 @@ function Model = -> DynamicObject()
         return this
     })
     :define("query", |this, queryString|{
+        #println("query : " + queryString)
         this: modelsList(list[])
         this: allKeys(this: db(): keys(this: kind()+queryString))
         return this
@@ -108,11 +107,15 @@ function Model = -> DynamicObject()
         this: allKeys():each(|key| {
             let modelJsonNode =  json():parse(this: db(): get(key))
             let modelHashMap = json():fromJson(modelJsonNode, HashMap.class)
-            let model = Model(): kind(this: kind()): fields(modelHashMap)
+            let model = Model(): kind(this: kind()): fields(modelHashMap):db(this:db()) #!!!
             this: modelsList(): add(model)
         })
         return this: modelsList()
     })
     :define("queryById", |this, id|{
-        return this: query("*:id:"+id+"*"): models(): getFirst()
+        let model2find = this: query("*:id:"+id+"*"): models(): getFirst()
+        #model2find:setField("id",id)
+        return model2find
     })
+
+    #project:name:TOTO:description:TUTU:id:afb61652-3294-4ce5-9aec-e033c0b06756
