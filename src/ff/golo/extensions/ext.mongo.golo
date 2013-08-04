@@ -44,11 +44,11 @@ function Model = {
             return this
         })
         :define("fields", |this, fieldsMap| {
-            println("fieldsMap : "+ fieldsMap)
+            #println("fieldsMap : "+ fieldsMap)
             let bdbo = BasicDBObject(fieldsMap)
             this:DBObject(bdbo)            #basicDBObject
 
-            println("JSON : " + this:DBObject():toString())
+            #println("JSON : " + this:DBObject():toString())
 
             return this
         })
