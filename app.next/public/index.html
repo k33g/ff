@@ -21,8 +21,26 @@
     </div>
 
     <div class="container">
-        <projectForm></projectForm>
-        <projectsList></projectsList>
+
+        <ul id="appTab"  class="nav nav-tabs">
+            <li><a href="#documents" data-toggle="tab">Documents</a></li>
+            <li><a href="#projects" data-toggle="tab">Projects</a></li>
+        </ul>
+
+        <div id="appTabContent" class="tab-content">
+            <div class="tab-pane active" id="documents">
+                <br>
+                <documentForm></documentForm>
+                <documentsList></documentsList>
+            </div>
+            <div class="tab-pane" id="projects">
+                <br>
+                <projectForm></projectForm>
+                <projectsList></projectsList>
+            </div>
+        </div>
+
+
     </div>
 
     <script src="js/vendors/yepnope.1.5.4-min.js"></script>
@@ -40,6 +58,7 @@
                 "js/lazyview.js",
                 "js/namespace.js",
                 "js/models/project.js",
+                "js/models/document.js",
                 "js/views/project.form.js",
                 "js/views/projects.list.js",
                 "js/views/application.view.js",
@@ -48,6 +67,10 @@
             complete : function() {
                 console.log("All scripts loaded, starting application")
                 yepnope("js/application.js")
+
+                $(function () {
+                    $('#myTab a:last').tab('show');
+                })
 
             }
         })

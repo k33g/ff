@@ -8,22 +8,36 @@ import core.plugins
 function routes = |arg| {
     println("=== CREATING ROUTES ===")
 
+    # Get All documents
     router():GET(route()
-        :url("/insert")
-        :script("/controllers/m.golo")
-        :method("insert")
+        :url("/documents")
+        :script("/controllers/documents.golo")
+        :method("fetchAll")
+    )
+    # Create a document
+    router():POST(route()
+        :url("/documents")
+        :script("/controllers/documents.golo")
+        :method("create")
+    )
+    # update one document (by id ?)
+    router():PUT(route()
+        :url("/documents/:_id")
+        :script("/controllers/documents.golo")
+        :method("save")
+    )
+    # Get one document by id
+    router():GET(route()
+        :url("/documents/:_id")
+        :script("/controllers/documents.golo")
+        :method("fetch")
     )
 
-    router():GET(route()
-        :url("/findone")
-        :script("/controllers/m.golo")
-        :method("findone")
-    )
-
-    router():GET(route()
-        :url("/find")
-        :script("/controllers/m.golo")
-        :method("find")
+    # delete one document by id
+    router():DELETE(route()
+        :url("/documents/:_id")
+        :script("/controllers/documents.golo")
+        :method("delete")
     )
 
     #-----------------------------------------

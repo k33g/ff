@@ -33,6 +33,8 @@ public class Resources {
 
         scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.redis.golo");
 
+        scriptsLoader.loadGoloResource("ff/golo/extensions/", "ext.mongo.golo");
+
 
     }
 
