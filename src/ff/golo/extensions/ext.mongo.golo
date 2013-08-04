@@ -17,16 +17,16 @@ import org.bson.types.ObjectId
 
 function db = |host, port, dbname| {
 
-    let mongoDatabase = memory():load(host + port + dbname)
+    let mongoDatabase = memory():load("mongo:" + host + port + dbname)
     #The MongoClient instance actually represents a pool of connections to the database;
     #you will only need one instance of class MongoClient even with multiple threads
     if mongoDatabase isnt null {
-        println("mongoDatabase client already loaded :)")
+        #println("mongoDatabase client already loaded :)")
         return mongoDatabase
     } else {
         let mongoClient = MongoClient(host, port)
         let db = mongoClient:getDB(dbname)          # it's a DB object
-        memory():save(host + port + dbname, db)
+        memory():save("mongo:" + host + port + dbname, db)
         return db
     }
 }

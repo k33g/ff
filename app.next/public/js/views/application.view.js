@@ -16,14 +16,6 @@ App.Views.ApplicationView = Backbone.View.extend({
     },
     update : function() {
         this.projects.fetch();
-    },
-    deleteProject : function(projectId) {
-
-        this.projects.get(projectId).destroy({
-            success:function(data, response){
-                console.log("project deleted", data, response)
-            }
-        })
     }
 
 });

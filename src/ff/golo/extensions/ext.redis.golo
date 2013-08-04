@@ -1,16 +1,33 @@
 module core.redis
 
 import core.json
+import core.stores
+
 import java.util.HashMap
 import java.util.UUID
 import redis.clients.jedis.Jedis
 
-function db = |host| -> Jedis(host)
+#function db = |host, port| -> Jedis(host, port)
 
-#function db = -> DynamicObject():
-#    helper(Jedis(host))
+function db = |host, port| {
+
+    let redisDatabase = memory():load("redis:" + host + port)
+    if redisDatabase isnt null {
+        #println("redisDatabase client already loaded :)")
+        return redisDatabase
+    } else {
+        let db = Jedis(host, port)
+        memory():save("redis:" + host + port, db)
+        return db
+    }
+}
+
 
 function Model = -> DynamicObject()
+    :define("db", |this, host, port| {
+        this:_db(db(host, port))
+        return this
+    })
     :kind("something")
     :fields(map[])
     :define("toJson", |this| -> json():stringify(this:fields()))
@@ -29,7 +46,7 @@ function Model = -> DynamicObject()
             #Search by id to get the exact key
             let qs = this: kind()+":*:id:"+this: fields(): get("id")+"*"
             #project:*:id:a9d0d51b-075d-4f3c-8d83-bc5b9779fff5*
-            let all_Keys = this: db(): keys(qs)
+            let all_Keys = this:_db(): keys(qs)
             if all_Keys: size() > 0 {
                 keyToDelete = all_Keys: iterator(): next()
             }
@@ -43,7 +60,7 @@ function Model = -> DynamicObject()
     })
     :define("delete", |this| {
         try {
-            this: db(): del(this:getKeyById())
+            this:_db(): del(this:getKeyById())
         } catch (e) {
             e: printStackTrace()
             println("Huston we've got a problem when deleting model")
@@ -64,7 +81,7 @@ function Model = -> DynamicObject()
             this: fields(): put("id", id)
         } else { #update
             try {
-                this: db(): del(this:getKeyById())
+                this:_db(): del(this:getKeyById())
             } catch(e) {
                 e: printStackTrace()
             }
@@ -75,7 +92,7 @@ function Model = -> DynamicObject()
 
         try {
             let stringToSave = json():stringify(this: fields())
-            this: db(): set(key, stringToSave)
+            this:_db(): set(key, stringToSave)
         } catch(e) {
             println(e: getCause(): getMessage())
             println("Huston we've got a problem when saving model")
@@ -84,19 +101,19 @@ function Model = -> DynamicObject()
     })
     :define("all",|this| {
         this: modelsList(list[])
-        this: allKeys(this: db(): keys(this: kind()+":*"))
+        this: allKeys(this:_db(): keys(this: kind()+":*"))
         return this
     })
     :define("query", |this, queryString|{
         #println("query : " + queryString)
         this: modelsList(list[])
-        this: allKeys(this: db(): keys(this: kind()+queryString))
+        this: allKeys(this:_db(): keys(this: kind()+queryString))
         return this
     })
     :define("toJsonList",|this| {
         # :all():toJson()
         this: allKeys():each(|key| {
-            let modelJsonNode =  json():parse(this: db(): get(key))
+            let modelJsonNode =  json():parse(this:_db(): get(key))
             let modelHashMap = json():fromJson(modelJsonNode, HashMap.class)
             this: modelsList(): add(modelHashMap)
         })
@@ -105,9 +122,9 @@ function Model = -> DynamicObject()
     :define("models",|this| {
         # :all():models()
         this: allKeys():each(|key| {
-            let modelJsonNode =  json():parse(this: db(): get(key))
+            let modelJsonNode =  json():parse(this:_db(): get(key))
             let modelHashMap = json():fromJson(modelJsonNode, HashMap.class)
-            let model = Model(): kind(this: kind()): fields(modelHashMap):db(this:db()) #!!!
+            let model = Model(): kind(this: kind()): fields(modelHashMap):_db(this:_db()) #!!!
             this: modelsList(): add(model)
         })
         return this: modelsList()

@@ -28,10 +28,10 @@ App.Views.ProjectsView = Backbone.LazyView.extend({
     render:function(){
         this.display({projects:this.collection});
     },
-    events : {
-        "click a":function(e) {//no need of router
-
-            this.collection.get(this.getHashValue(e)).destroy({
+    events : { //no need of router
+        "click a":function(e) { // click on a link (href)
+            var idOfSelectedProject = this.getHashValue(e) // get the hash value of the target
+            this.collection.get(idOfSelectedProject).destroy({
                 success:function(data, response){
                     console.log("project deleted", data, response)
                 }
